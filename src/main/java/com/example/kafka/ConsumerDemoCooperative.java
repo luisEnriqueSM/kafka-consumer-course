@@ -6,15 +6,16 @@ import java.util.Properties;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
+import org.apache.kafka.clients.consumer.CooperativeStickyAssignor;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.errors.WakeupException;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ConsumerDemoWithShutdown {
+public class ConsumerDemoCooperative {
 
-    private static final Logger log = LoggerFactory.getLogger(ConsumerDemoWithShutdown.class.getName());
+    private static final Logger log = LoggerFactory.getLogger(ConsumerDemoCooperative.class.getName());
 
     public static void main(String[] args) {
         log.info("Kafka Consumer");
@@ -36,6 +37,8 @@ public class ConsumerDemoWithShutdown {
         // earliest -> read from the beginning of my topic --from-beginning
         // latest -> read the latest messages
         properties.setProperty("auto.offset.reset", "earliest");
+        properties.setProperty("partition.assignment.strategy", CooperativeStickyAssignor.class.getName());
+        properties.setProperty("gorup.instance.id", "...."); // strategy for static assigments
 
         // create a consumer
         KafkaConsumer<String, String> consumer = new KafkaConsumer<>(properties);
