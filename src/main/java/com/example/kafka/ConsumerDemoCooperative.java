@@ -38,7 +38,7 @@ public class ConsumerDemoCooperative {
         // latest -> read the latest messages
         properties.setProperty("auto.offset.reset", "earliest");
         properties.setProperty("partition.assignment.strategy", CooperativeStickyAssignor.class.getName());
-        properties.setProperty("gorup.instance.id", "...."); // strategy for static assigments
+        //properties.setProperty("group.instance.id", "...."); // strategy for static assigments
 
         // create a consumer
         KafkaConsumer<String, String> consumer = new KafkaConsumer<>(properties);
